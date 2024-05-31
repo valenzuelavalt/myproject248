@@ -62,6 +62,25 @@ view: products {
     type: string
     sql: ${TABLE}.sku ;;
   }
+  parameter: choose_dimension {
+    type: unquoted
+    allowed_value: {
+      label: "Dimension 1"
+      value: "brand"
+    }
+    allowed_value: {
+      label: "Dimension 2"
+      value: "category"
+    }
+    allowed_value: {
+      label: "Dimension 3"
+      value: "department"
+    }
+
+  }
+  dimension: dimension_test {
+    sql: ${TABLE}.{% parameter ${choose_dimension} %};;
+  }
   measure: count {
     type: count
     drill_fields: [id, item_name, inventory_items.count]
