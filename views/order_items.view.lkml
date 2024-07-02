@@ -48,6 +48,20 @@ view: order_items {
   dimension: sale_price {
     type: number
     sql: ${TABLE}.sale_price ;;
+    html:
+    {% if period._in_query  %}
+    <p style='color: red;'>{{ value }}</p>
+    {% elsif value > 0 %}
+    <p style='color: blue; '>{{ value }}</p>
+    {% endif %};;
+
+
+  }
+
+  dimension: period {
+    type: number
+    sql: ${TABLE}.sale_price ;;
+
   }
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
@@ -62,6 +76,14 @@ view: order_items {
     sql: ${sale_price} ;;  }
   measure: count {
     type: count
-    drill_fields: [id, inventory_items.id, orders.id]
+    drill_fields: [id, orders.id, inventory_items.id]
+
   }
+  parameter: show_comparison {
+    type: unquoted
+    allowed_value: {label:"yes"
+      value:"yes"}
+  }
+
+
 }
